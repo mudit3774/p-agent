@@ -13,6 +13,8 @@ import java.util.Map;
 
 import static agent.constants.Constants.*;
 
+// TODO : Add dependency injection
+// TODO : Add proper logging
 public class Agent {
     public static void main(String[] args) {
         System.out.println("Starting agent.Agent ...");

@@ -14,13 +14,14 @@ import java.util.concurrent.ExecutionException;
 
 public class SimpleNotifier implements Notifier {
 
-    private KafkaTemplate<String, Set<Alert>> kafkaTemplate;
+    public static final String SOCALERTS = "socalerts";
+    private KafkaTemplate<String, CreateAlertsRequest> kafkaTemplate;
 
     public SimpleNotifier() {
         this.kafkaTemplate = kafkaTemplate();
     }
 
-    private KafkaTemplate<String, Set<Alert>> kafkaTemplate() {
+    private KafkaTemplate<String, CreateAlertsRequest> kafkaTemplate() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -29,9 +30,10 @@ public class SimpleNotifier implements Notifier {
     }
 
     @Override
-    public void notify(Set<Alert> alert) {
-        System.out.println("Batch and Notifying in parallel : " + alert.toString());
-        kafkaTemplate.send("quickstart-events", alert);
-        System.out.println("Notified : " + alert.toString());
+    public void notify(Set<Alert> alerts) {
+        System.out.println("Batch and Notifying in parallel : " + alerts.toString());
+        CreateAlertsRequest request = new CreateAlertsRequest(alerts);
+        kafkaTemplate.send(SOCALERTS, request);
+        System.out.println("Notified : " + alerts.toString());
     }
 }

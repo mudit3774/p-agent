@@ -10,6 +10,7 @@ public class ConfigUtil {
     private ConfigUtil() {
     }
 
+    // TODO : Take override values with actual arguments
     public static Map<String, String> getConfig(String[] args) {
         Map<String, String> config = new HashMap<>();
         config.put(LOG_FILE, DEFAULT_FILE_PATH);
