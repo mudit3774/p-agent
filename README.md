@@ -45,3 +45,43 @@ http://localhost:8080/search \
 
 Usage
 =====
+
+Implement this interface to model a detection rule :
+
+
+    public interface DetectionRule {
+    
+        // Checks if the given line has a data leak
+        boolean check(String line);
+
+        // Masks sensitive data in the given line
+        String mask(String line);
+    }
+
+A sample rule is provided `CreditCardDetectionRule.java`
+
+Implement this abstract class to configure the agent :
+
+    
+    public abstract class AgentConfig {
+
+        // Returns the list of rules to be applied 
+        public abstract List<DetectionRule> getRules();
+
+        ...
+        ...
+    }
+
+Bind the implementation in `Agent.java`
+
+Users can optionally update notification endpoint, methods and detection rule application logic.
+
+Configurations
+==============
+
+The following arguments can be provided while starting the agent
+
+* HOST - Host id for the service
+* APP - App name for the service
+* LOG_FILE - LogFile to monitor
+* ENDPOINT - Endpoint to record the alert (TODO)
